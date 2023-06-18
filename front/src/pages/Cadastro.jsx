@@ -9,20 +9,23 @@ import {
   GridItem,
   Button,
   Container,
+  Box,
 } from '@chakra-ui/react';
 
 export default function Cadastro() {
   const [formData, setFormData] = useState({
     nome: '',
-    telefone: '',
+    imagemPerfil: null,
     endereco: '',
+    telefone: '',
     cpf: '',
-    fotoPerfil: null,
-    nomeCartao: '',
-    numeroCartao: '',
-    cvc: '',
     email: '',
-    senha: '',
+    senhaHash: '',
+    cartaoDeCredito: {
+      nome: '',
+      numero: '',
+      cvc: '',
+    },
   });
 
   const handleInputChange = (e) => {
@@ -35,20 +38,50 @@ export default function Cadastro() {
 
   const handleFotoPerfilChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      fotoPerfil: URL.createObjectURL(file),
-    }));
+    const reader = new FileReader();
+  
+    reader.onload = (event) => {
+      const base64Image = event.target.result;
+      setFormData((prevData) => ({
+        ...prevData,
+        imagemPerfil: base64Image,
+      }));
+    };
+  
+    reader.readAsDataURL(file);
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+  
+    const jsonData = JSON.stringify(formData);
+  
+    fetch('http://localhost:8080', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+  
 
   return (
-    <Container maxW="container.xl">
-      <Text fontSize="lg">Checkout</Text>
+    <Box display="flex" justifyContent="center">
+      <Container maxW="container.xl">
+        <Center>
+        <Text fontSize="lg" fontWeight="bold" mb={2}>
+            Cadastro
+          </Text>
+        </Center>
       <form onSubmit={handleSubmit}>
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           {/* Dados Pessoais */}
@@ -136,10 +169,11 @@ export default function Cadastro() {
             </InputGroup>
 
             {/* Exibir a imagem selecionada */}
-            {formData.fotoPerfil && (
+            {formData.imagemPerfil && (
               <Center mt={2}>
-                <img
-                  src={formData.fotoPerfil}
+               
+               <img
+                  src={formData.imagemPerfil}
                   alt="Foto de Perfil"
                   style={{ maxWidth: '100%', maxHeight: '200px' }}
                 />
@@ -149,7 +183,7 @@ export default function Cadastro() {
 
           {/* Dados do Cartão */}
           <GridItem colSpan={1}>
-          <Text fontSize="xl" fontWeight="bold" mt={4}>
+            <Text fontSize="xl" fontWeight="bold" mt={4}>
               Dados do Cartão
             </Text>
             <InputGroup>
@@ -163,7 +197,7 @@ export default function Cadastro() {
                 type="text"
                 placeholder="Nome do Cartão"
                 onChange={handleInputChange}
-                value={formData.nomeCartao}
+                value={formData.cartaoDeCredito.nome}
                 required
               />
             </InputGroup>
@@ -179,7 +213,7 @@ export default function Cadastro() {
                 type="text"
                 placeholder="Número do Cartão"
                 onChange={handleInputChange}
-                value={formData.numeroCartao}
+                value={formData.cartaoDeCredito.numero}
                 maxLength={20}
                 required
               />
@@ -196,7 +230,7 @@ export default function Cadastro() {
                 type="password"
                 placeholder="CVC"
                 onChange={handleInputChange}
-                value={formData.cvc}
+                value={formData.cartaoDeCredito.cvc}
                 minLength={3}
                 maxLength={3}
                 required
@@ -230,7 +264,7 @@ export default function Cadastro() {
                 type="password"
                 placeholder="Senha"
                 onChange={handleInputChange}
-                value={formData.senha}
+                value={formData.senhaHash}
                 required
               />
             </InputGroup>
@@ -242,5 +276,6 @@ export default function Cadastro() {
         </Grid>
       </form>
     </Container>
+    </Box>
   );
 }
