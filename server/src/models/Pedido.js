@@ -8,14 +8,14 @@ module.exports = mongoose.model('Pedidos', {
         {
             produto: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Produtos'
+                ref: Produto
             },
             quantidade: Number
         }
     ],
     cliente: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Clientes'
+        ref: Cliente
     },
     data: Date,
     status:  {

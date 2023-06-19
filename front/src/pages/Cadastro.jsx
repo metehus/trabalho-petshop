@@ -54,23 +54,28 @@ export default function Cadastro() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    const jsonData = JSON.stringify(formData);
-  
-    fetch('http://localhost:8080', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+
+    api.post('/clientes', formData)
+        .then((response) => {
+            console.log(response.data)
+            alert(" O usuario " + response.data.codigo + " foi criado com sucesso!")
+        })
+        .catch((err) => {
+            console.error(err)
+            alert(" Ocorreu um erro! Veja no console ..")
+        })
+        .finally(() => {
+          setFormData.nome("")
+          setFormData.imagemPerfil(null)
+          setFormData.endereco("")
+          setFormData.telefone("")
+          setFormData.cpf("")
+          setFormData.email("")
+          setFormData.senhaHash("")
+          setFormData.cartaoDeCredito.nome("")
+          setFormData.cartaoDeCredito.numero("")
+          setFormData.cartaoDeCredito.cvc("")
+        })
   };
   
 
