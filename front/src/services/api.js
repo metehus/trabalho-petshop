@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBack = "http://localhost:3001"
+const urlBack = "mongodb://localhost:27017/"
 
 const api = axios.create({
     baseURL: urlBack,
