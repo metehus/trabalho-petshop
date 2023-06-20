@@ -3,18 +3,18 @@ const auth = require('./app.json');
 
 const bcryptjs = require('bcryptjs');
 
-async function incluirToken(cliente) {
-  const token = await jwt.sign({ codigo: cliente.codigo }, auth.appId, {
+async function incluirToken(Clientes) {
+  const token = await jwt.sign({ _id: Clientes._id }, auth.appId, {
     expiresIn: 3600 // Expira em 3600 segundos ou 1 hora.
   });
-  cliente.token = token;
-  cliente.senha = undefined;
+  Clientes.token = token;
+  Clientes.senhaHash = undefined;
 }
 
 async function gerarHash(usuario) {
-  if (typeof usuario.senha !== 'undefined') {
-    const hash = await bcryptjs.hash(usuario.senha, 10);
-    usuario.senha = hash;
+  if (typeof usuario.senhaHash !== 'undefined') {
+    const hash = await bcryptjs.hash(usuario.senhaHash, 10);
+    usuario.senhaHash = hash;
   }
   return usuario;
 }
@@ -42,7 +42,7 @@ function autorizar(req, res, next) {
     if (err) {
       return res.status(401).send({ error: 'Token inválido!' });
     }
-    req.usuarioLogadoId = usuario.id;
+    req.usuarioLogadoId = usuario._id;
     return next();
   });
 }
