@@ -1,24 +1,88 @@
-import { Container, Text } from '@chakra-ui/react'
-import { useState, useEffect } from 'react'
-import Categoria from '../components/Categoria'
+import { Container, Select, Flex, Input, SimpleGrid, Text, Center } from "@chakra-ui/react";
+import { useState, useEffect, useMemo } from "react";
+import Categoria from "../components/Categoria";
 
 export default function Home() {
-  const [response, setResponse] = useState(null)
+  const [response, setResponse] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const [orderBy, setOrderBy] = useState("titulo");
 
   async function load() {
-    setResponse(await fetch('http://localhost:8080/produtos/').then(r => r.json()))
+    setResponse(
+      await fetch("http://localhost:8080/produtos/").then((r) => r.json())
+    );
   }
 
   useEffect(() => {
-    load()
-  }, [])
+    load();
+  }, []);
 
-  return <Container maxW="container.xl">
-    <Text fontSize='lg'>Categorias</Text>
+  const filtered = useMemo(() => {
+    if (!searchText) {
+      return response?.categorias;
+    } else {
+      return response?.categorias.map(c =>({
+        ...c,
+        produtos: c.produtos.filter((produto) =>
+          produto.nome.toLowerCase().includes(searchText.toLowerCase())
+        )
+      }))
+    }
+  }, [response, searchText]);
 
-    {response?.categorias?.map(cat => (
-      <Categoria key={cat._id} categoria={cat} />
-    ))}
+  const categorias = useMemo(
+    () =>
+      filtered?.map(c =>({
+        ...c,
+        produtos: c.produtos.sort((a, b) => {
+          if (orderBy === "nome") {
+            // se for titulo compara por texto
+            return a.titulo.localeCompare(b.titulo);
+          } else if (orderBy === 'price-asc') {
+            return a.preco - b.preco;
+          } else {
+            return b.preco - a.preco;
+          }
+      })
+    })),
+    [filtered, orderBy]
+  );
 
-  </Container>
+  return (
+    <Container maxW="container.xl">
+      <Text fontSize="lg">Categorias</Text>
+
+      <Center>
+        <Flex p={2} mb={8} w="100%" direction="column" align="center" maxW={80} gap={3}>
+            <Input
+                size="lg"
+                placeholder='Buscar produto'
+                value={searchText}
+                onChange={e => setSearchText(e.target.value)}
+            />
+            <Flex align="center" w="100%">
+                <Text
+                    sx={{ width: 140 }}
+                    as="span"
+                >
+                    Ordenar por
+                </Text>
+                <Select
+                    size="sm"
+                    value={orderBy}
+                    onChange={e => setOrderBy(e.target.value)}
+                >
+                    <option value="nome">Nome</option>
+                    <option value="price-desc">Preço (maior para o menor)</option>
+                    <option value="price-asc">Preço (menor para o maior)</option>
+                </Select>
+            </Flex>
+        </Flex>
+    </Center>
+
+      {categorias?.map((cat) => (
+        <Categoria key={cat._id} categoria={cat} />
+      ))}
+    </Container>
+  );
 }
