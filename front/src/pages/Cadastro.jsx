@@ -11,6 +11,7 @@ import {
   Container,
   Box,
 } from '@chakra-ui/react';
+import api from '../services/api';
 
 export default function Cadastro() {
   const [formData, setFormData] = useState({
@@ -125,177 +126,177 @@ export default function Cadastro() {
                 />
               </InputGroup>
               <InputGroup>
-  <InputLeftElement>
-    <span role="img" aria-label="Telefone">
-      📞
-    </span>
-  </InputLeftElement>
-  <Input
-    name="telefone"
-    type="tel"
-    placeholder="Telefone"
-    onChange={handleInputChange}
-    value={formData.telefone}
-    required
-  />
-</InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="Telefone">
+                    📞
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="telefone"
+                  type="tel"
+                  placeholder="Telefone"
+                  onChange={handleInputChange}
+                  value={formData.telefone}
+                  required
+                />
+              </InputGroup>
 
-<InputGroup>
-  <InputLeftElement>
-    <span role="img" aria-label="Endereço">
-      🏠
-    </span>
-  </InputLeftElement>
-  <Input
-    name="endereco"
-    type="text"
-    placeholder="Endereço"
-    onChange={handleInputChange}
-    value={formData.endereco}
-    required
-  />
-</InputGroup>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="Endereço">
+                    🏠
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="endereco"
+                  type="text"
+                  placeholder="Endereço"
+                  onChange={handleInputChange}
+                  value={formData.endereco}
+                  required
+                />
+              </InputGroup>
 
-<InputGroup>
-  <InputLeftElement>
-    <span role="img" aria-label="CPF">
-      🆔
-    </span>
-  </InputLeftElement>
-  <Input
-    name="cpf"
-    type="text"
-    placeholder="CPF"
-    onChange={handleInputChange}
-    value={formData.cpf}
-    required
-  />
-</InputGroup>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="CPF">
+                    🆔
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="cpf"
+                  type="text"
+                  placeholder="CPF"
+                  onChange={handleInputChange}
+                  value={formData.cpf}
+                  required
+                />
+              </InputGroup>
 
-<InputGroup>
-  <InputLeftElement>
-    <span role="img" aria-label="Foto de Perfil">
-      📷
-    </span>
-  </InputLeftElement>
-  <Input
-    name="fotoPerfil"
-    type="file"
-    accept="image/*"
-    onChange={handleFotoPerfilChange}
-    required
-  />
-</InputGroup>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="Foto de Perfil">
+                    📷
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="fotoPerfil"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFotoPerfilChange}
+                  required
+                />
+              </InputGroup>
 
-{/* Exibir a imagem selecionada */}
-{formData.imagemPerfil && (
-  <Center mt={2}>
-    <img
-      src={formData.imagemPerfil}
-      alt="Foto de Perfil"
-      style={{ maxWidth: '100%', maxHeight: '200px' }}
-    />
-  </Center>
-)}
+              {/* Exibir a imagem selecionada */}
+              {formData.imagemPerfil && (
+                <Center mt={2}>
+                  <img
+                    src={formData.imagemPerfil}
+                    alt="Foto de Perfil"
+                    style={{ maxWidth: '100%', maxHeight: '200px' }}
+                  />
+                </Center>
+              )}
 
-{/* Dados do Cartão */}
-</GridItem>
+              {/* Dados do Cartão */}
+            </GridItem>
 
-<GridItem colSpan={1}>
-  <Text fontSize="xl" fontWeight="bold" mt={4}>
-    Dados do Cartão
-  </Text>
-  <InputGroup>
-    <InputLeftElement>
-      <span role="img" aria-label="Nome do Cartão">
-        💳
-      </span>
-    </InputLeftElement>
-    <Input
-      name="cartaoDeCredito.nome"
-      type="text"
-      placeholder="Nome do Cartão"
-      onChange={handleInputChange}
-      value={formData.cartaoDeCredito.nome}
-      required
-    />
-  </InputGroup>
+            <GridItem colSpan={1}>
+              <Text fontSize="xl" fontWeight="bold" mt={4}>
+                Dados do Cartão
+              </Text>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="Nome do Cartão">
+                    💳
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="cartaoDeCredito.nome"
+                  type="text"
+                  placeholder="Nome do Cartão"
+                  onChange={handleInputChange}
+                  value={formData.cartaoDeCredito.nome}
+                  required
+                />
+              </InputGroup>
 
-  <InputGroup>
-    <InputLeftElement>
-      <span role="img" aria-label="Número do Cartão">
-        💳
-      </span>
-    </InputLeftElement>
-    <Input
-      name="cartaoDeCredito.numero"
-      type="text"
-      placeholder="Número do Cartão"
-      onChange={handleInputChange}
-      value={formData.cartaoDeCredito.numero}
-      maxLength={20}
-      required
-    />
-  </InputGroup>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="Número do Cartão">
+                    💳
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="cartaoDeCredito.numero"
+                  type="text"
+                  placeholder="Número do Cartão"
+                  onChange={handleInputChange}
+                  value={formData.cartaoDeCredito.numero}
+                  maxLength={20}
+                  required
+                />
+              </InputGroup>
 
-  <InputGroup>
-    <InputLeftElement>
-      <span role="img" aria-label="CVC">
-        🔒
-      </span>
-    </InputLeftElement>
-    <Input
-      name="cartaoDeCredito.cvc"
-      type="password"
-      placeholder="CVC"
-      onChange={handleInputChange}
-      value={formData.cartaoDeCredito.cvc}
-      minLength={3}
-      maxLength={3}
-      required
-    />
-  </InputGroup>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="CVC">
+                    🔒
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="cartaoDeCredito.cvc"
+                  type="password"
+                  placeholder="CVC"
+                  onChange={handleInputChange}
+                  value={formData.cartaoDeCredito.cvc}
+                  minLength={3}
+                  maxLength={3}
+                  required
+                />
+              </InputGroup>
 
-  <InputGroup>
-    <InputLeftElement>
-      <span role="img" aria-label="Email">
-        📧
-      </span>
-    </InputLeftElement>
-    <Input
-      name="email"
-      type="email"
-      placeholder="Email"
-      onChange={handleInputChange}
-      value={formData.email}
-      required
-    />
-  </InputGroup>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="Email">
+                    📧
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  onChange={handleInputChange}
+                  value={formData.email}
+                  required
+                />
+              </InputGroup>
 
-  <InputGroup>
-    <InputLeftElement>
-      <span role="img" aria-label="Senha">
-        🔒
-      </span>
-    </InputLeftElement>
-    <Input
-      name="senhaHash"
-      type="password"
-      placeholder="Senha"
-      onChange={handleInputChange}
-      value={formData.senhaHash}
-      required
-    />
-  </InputGroup>
-</GridItem>
+              <InputGroup>
+                <InputLeftElement>
+                  <span role="img" aria-label="Senha">
+                    🔒
+                  </span>
+                </InputLeftElement>
+                <Input
+                  name="senhaHash"
+                  type="password"
+                  placeholder="Senha"
+                  onChange={handleInputChange}
+                  value={formData.senhaHash}
+                  required
+                />
+              </InputGroup>
+            </GridItem>
 
-<Button type="submit" gridColumn="span 2">
-  Cadastrar
-</Button>
-</Grid>
-</form>
-</Container>
-</Box>
-);
+            <Button type="submit" gridColumn="span 2">
+              Cadastrar
+            </Button>
+          </Grid>
+        </form>
+      </Container>
+    </Box>
+  );
 }
 

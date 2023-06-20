@@ -64,10 +64,4 @@ module.exports = mongoose.model('Clientes', {
             select: false
         }
     }
-
-}).pre('save', async function (next) 
-{
-    const hash = await bcryptjs.hash(this.senhaHash, 10);
-    this.senhaHash = hash;
-    next();
-  });
+})
