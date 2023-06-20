@@ -1,16 +1,16 @@
-const clienteModel = require('../models/Cliente');
+const Cliente = require('../models/Cliente');
 const auth = require('../auth/auth');
 
 module.exports =  {
     async salvar(req, res) {
         const cliente = req.body;
-        const max = await clienteModel.findOne({}).sort({ codigo: -1 });
+        const max = await Cliente.findOne({}).sort({ codigo: -1 });
         cliente.codigo = max == null ? 1 : max.codigo + 1;
 
-        if (await clienteModel.findOne({ 'email': cliente.email })) {
+        if (await Cliente.findOne({ 'email': cliente.email })) {
             res.status(400).send({ error: 'Cliente já cadastrado!' });
         }
-        const resultado = await clienteModel.create(cliente);
+        const resultado = await Cliente.create(cliente);
         auth.incluirToken(resultado);
         res.status(201).json(resultado);
     }
@@ -18,7 +18,7 @@ module.exports =  {
     ,async listar(req, res) {
         try
         {
-        const resultado = await clienteModel.find({});
+        const resultado = await Cliente.find({});
         res.status(200).json(resultado);
         }
         catch(error)
@@ -31,7 +31,7 @@ module.exports =  {
         try
         {
         const codigo = req.params.codigo;
-        const resultado = await clienteModel.findOne({ 'codigo': codigo });
+        const resultado = await Cliente.findOne({ 'codigo': codigo });
         res.status(200).json(resultado);
         }
         catch(error)
@@ -44,9 +44,9 @@ module.exports =  {
         try
         {
         const codigo = req.params.codigo;
-        const _id = String((await clienteModel.findOne({ 'codigo': codigo }))._id);
+        const _id = String((await Cliente.findOne({ 'codigo': codigo }))._id);
         const cliente = req.body;
-        await clienteModel.findByIdAndUpdate(String(_id), cliente);
+        await Cliente.findByIdAndUpdate(String(_id), cliente);
         res.status(200).send();
         }
         catch(error)
@@ -59,8 +59,8 @@ module.exports =  {
         try
         {
         const codigo = req.params.codigo;
-        const _id = String((await clienteModel.findOne({ 'codigo': codigo }))._id);
-        await clienteModel.findByIdAndRemove(String(_id));
+        const _id = String((await Cliente.findOne({ 'codigo': codigo }))._id);
+        await Cliente.findByIdAndRemove(String(_id));
         res.status(200).send();
         }
         catch(error)
