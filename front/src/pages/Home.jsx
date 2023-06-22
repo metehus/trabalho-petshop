@@ -1,6 +1,7 @@
 import { Container, Select, Flex, Input, SimpleGrid, Text, Center } from "@chakra-ui/react";
 import { useState, useEffect, useMemo } from "react";
 import Categoria from "../components/Categoria";
+import api from "../services/api";
 
 export default function Home() {
   const [response, setResponse] = useState(null);
@@ -9,7 +10,7 @@ export default function Home() {
 
   async function load() {
     setResponse(
-      await fetch("http://localhost:8080/produtos/").then((r) => r.json())
+      await api.get('/produtos').then((r) => r.data)
     );
   }
 

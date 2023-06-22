@@ -35,9 +35,11 @@ module.exports = {
     try {
       const item = await Produto.findById(req.params.id, { imagem: 0 }).populate('categoria')
 
-      item.imagem = `/produtos/${item._id}/imagem`
+      const obj = item._doc
 
-      res.json(item)
+      obj.imagem = `/produtos/${obj._id}/imagem`
+
+      res.json(obj)
     } catch (error) {
       console.error(error)
       res.status(500).json({ erro: 'Não foi possível listar esse produto.' })

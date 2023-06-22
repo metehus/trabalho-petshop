@@ -1,4 +1,5 @@
 import { Box, Card, CardBody, Center, Image, Text, Heading, Flex, Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export default function Categoria({ categoria }) {
   return (
@@ -20,7 +21,7 @@ export default function Categoria({ categoria }) {
                 {p.nome}
                 <br />
                 <Text>R$ {p.preco}</Text>
-                <Button colorScheme='purple'>Detalhes</Button>
+                <Button as={Link} to={`/produto/${p._id}`} colorScheme='yellow'>Detalhes</Button>
               </CardBody>
             </Card>
           ))}
