@@ -12,5 +12,6 @@ export default function Router() {
     <Route path='/login' element={<Login />} />
     <Route path='/register' element={<Cadastro />} />
     <Route path='/checkout' element={<Checkout />} />
+    <Route path='/*' element={<h1>Página não encontrada</h1>} />
   </ReactRoutes>
 }
