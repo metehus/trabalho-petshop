@@ -85,14 +85,16 @@ module.exports = {
       async mostrarImage(req, res) {
         try {
           const cliente = await Cliente.findById(req.params.id)
-    
+
           if (!cliente.imagemPerfil) {
             return res.status(404).json({
               erro: 'Esse produto não possuí imagem'
             })
           }
     
-          res.contentType('image/jpeg').send(cliente.imagemPerfil)
+          res.contentType('image/jpeg').send(
+            Buffer.from(cliente.imagemPerfil.toString().replace('data:image/jpeg;base64,', ''), 'base64')
+          )
         } catch (error) {
             console.error(error)
             res.status(500).json({ erro: 'Não foi possível retornar a imagem.' })
