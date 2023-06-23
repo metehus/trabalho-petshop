@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 
-module.exports = mongoose.model('Clientes', {
+const clienteSchema = new mongoose.Schema({
     codigo: Number,
     nome: 
     {
@@ -11,7 +11,7 @@ module.exports = mongoose.model('Clientes', {
     ,imagemPerfil: 
     {
         type: Buffer,
-        required: true
+        required: true,
     }
     ,endereco: 
     {
@@ -64,4 +64,13 @@ module.exports = mongoose.model('Clientes', {
             select: false
         }
     }
-})
+
+});
+
+clienteSchema.pre('save', async function (next) {
+    const hash = await bcryptjs.hash(this.senhaHash, 10);
+    this.senhaHash = hash;
+    next();
+  });
+
+  module.exports = mongoose.model('Clientes', clienteSchema);

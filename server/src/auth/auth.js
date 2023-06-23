@@ -3,12 +3,12 @@ const auth = require('./app.json');
 
 const bcryptjs = require('bcryptjs');
 
-async function incluirToken(Clientes) {
-  const token = await jwt.sign({ _id: Clientes._id }, auth.appId, {
+async function incluirToken(clientes) {
+  const token = await jwt.sign({ codigo: clientes.codigo }, auth.appId, {
     expiresIn: 3600 // Expira em 3600 segundos ou 1 hora.
   });
-  Clientes.token = token;
-  Clientes.senhaHash = undefined;
+  clientes.token = token;
+  clientes.senhaHash = undefined;
 }
 
 async function gerarHash(usuario) {

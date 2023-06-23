@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import {
   InputLeftElement,
   Input,
@@ -53,6 +54,13 @@ export default function Cadastro() {
     const file = e.target.files[0];
     const reader = new FileReader();
 
+    // Verifica o tamanho do arquivo
+    if (file && file.size > 5 * 1024 * 1024) {
+      // Excede o limite de 5MB
+      alert('O tamanho máximo permitido para a imagem é de 5MB.');
+      return;
+    }
+
     reader.onload = (event) => {
       const base64Image = event.target.result;
       setFormData((prevData) => ({
@@ -68,7 +76,7 @@ export default function Cadastro() {
     e.preventDefault();
 
     api
-      .post('/clientes', formData)
+      .post('/cliente', formData)
       .then((response) => {
         console.log(response.data);
         alert('O usuário ' + response.data.codigo + ' foi criado com sucesso!');

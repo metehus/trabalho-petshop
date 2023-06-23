@@ -1,44 +1,45 @@
 import { Container, Text, Input, Button, Link, Grid, GridItem } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import api from '../services/api';
 
 export default function Login() {
   const navigate = useNavigate();
 
-    const [autenticaData, setAutenticaData] = useState({
-      email: '',
-      senhaHash: ''
-    });
+  const [autenticaData, setAutenticaData] = useState({
+    email: '',
+    senhaHash: ''
+  });
 
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setAutenticaData((prevState) => ({
-        ...prevState,
-        [name]: value
-      }));
-    };
-
-  const handleLogin = () => {
-
-    api.post('/auth', autenticaData)
-    .then((response) => {
-        console.log(response.data)
-        alert(" Token gerado para o usuario " + response.data.nome)
-        localStorage.setItem("token", response.data.token);
-        navigate("/");
-    })
-    .catch((err) => {
-        console.error(err.response.data) // Objeto de erro vindo do axios
-        alert(" Ocorreu um erro! " + err.response.data.error)
-    })
-    .finally(() => {
-      setAutenticaData.email("")
-      setAutenticaData.senhaHash("")
-    })
-
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAutenticaData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
-   return (
+  const handleLogin = () => {
+    api.post('/auth', autenticaData)
+      .then((response) => {
+        console.log(response.data)
+        alert("Token gerado para o usuário " + response.data.nome)
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error(err.response.data) // Objeto de erro vindo do axios
+        alert("Ocorreu um erro! " + err.response.data.error)
+      })
+      .finally(() => {
+        setAutenticaData({
+          email: '',
+          senhaHash: ''
+        })
+      });
+  };
+
+  return (
     <Container maxW="container.xl">
       <Grid height="50vh" templateRows="1fr auto" placeItems="center" gap={4}>
         <Text fontSize="lg" fontWeight="bold" mb={2}>
@@ -59,9 +60,9 @@ export default function Login() {
           <Grid templateColumns="1fr" gap={2}>
             <Input
               type="password"
-              name="senhaHash"
+              name="senha"
               placeholder="Senha"
-              value={autenticaData.senhaHash}
+              value={autenticaData.senha}
               onChange={handleInputChange}
             />
           </Grid>

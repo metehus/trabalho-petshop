@@ -64,4 +64,37 @@ module.exports = {
             res.status(500).json({ erro: 'Não foi possível excluir o cliente.' })
         }
     }
+
+    ,async atualizarImage(req, res) {
+        try {
+          const cliente = await Cliente.findById(req.params.id, {})
+    
+          cliente.imagemPerfil = req.body
+          await produto.save()
+    
+          res.json({
+              mensagem: 'Imagem do produto atualizada'
+          })
+        } catch (error) {
+          console.error(error)
+          res.status(500).json({ erro: 'Não foi possível atualizar a imagem.' })
+        }
+      },
+    
+      async mostrarImage(req, res) {
+        try {
+          const cliente = await Cliente.findById(req.params.id)
+    
+          if (!cliente.imagemPerfil) {
+            return res.status(404).json({
+              erro: 'Esse produto não possuí imagem'
+            })
+          }
+    
+          res.contentType('image/jpeg').send(cliente.imagemPerfil)
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ erro: 'Não foi possível retornar a imagem.' })
+        }
+      }
 }
