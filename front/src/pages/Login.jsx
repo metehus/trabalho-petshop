@@ -31,12 +31,6 @@ export default function Login() {
         console.error(err.response.data) // Objeto de erro vindo do axios
         alert("Ocorreu um erro! " + err.response.data.error)
       })
-      .finally(() => {
-        setAutenticaData({
-          email: '',
-          senhaHash: ''
-        })
-      });
   };
 
   return (

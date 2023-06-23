@@ -84,22 +84,6 @@ export default function Cadastro() {
       .catch((err) => {
         console.error(err);
         alert('Ocorreu um erro! Veja no console ..');
-      })
-      .finally(() => {
-        setFormData({
-          nome: '',
-          imagemPerfil: null,
-          endereco: '',
-          telefone: '',
-          cpf: '',
-          email: '',
-          senhaHash: '',
-          cartaoDeCredito: {
-            nome: '',
-            numero: '',
-            cvc: '',
-          },
-        });
       });
   };
 
