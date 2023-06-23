@@ -1,5 +1,11 @@
 # Projeto Petshop
 
+### Integrantes:
+
+Matheus Sanches Dias
+
+Luiz Gabriel Wojtovicz
+
 ### Como iniciar:
 
 1. Vá para a pasta `server`
