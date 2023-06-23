@@ -4,7 +4,7 @@ const auth = require('./app.json');
 const bcryptjs = require('bcryptjs');
 
 async function incluirToken(clientes) {
-  const token = await jwt.sign({ codigo: clientes.codigo }, auth.appId, {
+  const token = await jwt.sign({ userId: clientes._id }, auth.appId, {
     expiresIn: 3600 // Expira em 3600 segundos ou 1 hora.
   });
   clientes.token = token;
@@ -42,7 +42,7 @@ function autorizar(req, res, next) {
     if (err) {
       return res.status(401).send({ error: 'Token inválido!' });
     }
-    req.usuarioLogadoId = usuario._id;
+    req.userId = usuario.userId;
     return next();
   });
 }

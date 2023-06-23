@@ -15,6 +15,7 @@ module.exports = {
 
         const resultado = await Cliente.create(cliente);
         resultado.imagemPerfil = undefined
+        resultado.senhaHash = undefined
         auth.incluirToken(resultado);
         res.status(201).json(resultado);
     }

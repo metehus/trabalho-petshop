@@ -2,6 +2,7 @@ import { Box, Container, Flex, Link, Text, useColorMode } from '@chakra-ui/react
 import { Link as RouterLink } from 'react-router-dom'
 
 export default function Header() {
+  
 
   // useColorMode().setColorMode('dark')
   return (
@@ -12,6 +13,7 @@ export default function Header() {
             Petshop
           </Text>
           <HeaderLink to="/">Início</HeaderLink>
+          <Box flex={1} />
           <HeaderLink to="/login">Login</HeaderLink>
           <HeaderLink to="/register">Cadastro</HeaderLink>
           <HeaderLink to="/checkout">Carrinho</HeaderLink>

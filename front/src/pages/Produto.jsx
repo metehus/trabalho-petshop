@@ -8,6 +8,7 @@ import {
   Badge,
   Flex,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import {
   NumberInput,
@@ -40,11 +41,13 @@ export default function Produto() {
       data.comentarios.length;
   }
 
+  const toast = useToast()
+
   function adicionarAoCarrinho() {
     const carrinho = lerCarrinho()
 
     carrinho.push({
-      quantidade,
+      quantidade: parseInt(quantidade),
       produto: {
         id: data._id,
         nome: data.nome,
@@ -54,6 +57,10 @@ export default function Produto() {
     })
 
     salvarCarrinho(carrinho)
+    
+    toast({
+      title: 'Produto adicionado ao carrinho!'
+    })
   }
 
   return (
