@@ -76,7 +76,7 @@ export default function Cadastro() {
     e.preventDefault();
 
     api
-      .post('/cliente', formData)
+      .post('/clientes', formData)
       .then((response) => {
         console.log(response.data);
         alert('O usuário ' + response.data.codigo + ' foi criado com sucesso!');

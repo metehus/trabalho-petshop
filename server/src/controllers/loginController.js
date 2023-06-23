@@ -12,7 +12,7 @@ class LoginController {
             return res.status(400).send({ error: 'Usuário não encontrado!' });
         }
 
-        if (!await bcryptjs.compare(senha, cliente.senhaHash)) {
+        if (!await bcryptjs.compare(senhaHash, cliente.senhaHash)) {
             return res.status(400).send({ error: 'Senha inválida!' });
         }
 

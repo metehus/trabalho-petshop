@@ -60,9 +60,9 @@ export default function Login() {
           <Grid templateColumns="1fr" gap={2}>
             <Input
               type="password"
-              name="senha"
+              name="senhaHash"
               placeholder="Senha"
-              value={autenticaData.senha}
+              value={autenticaData.senhaHash}
               onChange={handleInputChange}
             />
           </Grid>
